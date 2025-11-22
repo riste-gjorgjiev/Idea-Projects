@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Chef Details</title>
+    <style type="text/css">
+        /* ... (omitted styles for brevity) ... */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 5px;
+            margin: 5px 0;
+            background-color: #f5f5f5;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 th:text="|Chef: ${chef.firstName} ${chef.lastName}|">Chef: Gordon Ramsay</h1>
+</header>
+<section>
+    <h2 th:text="|Bio: ${chef.bio}|">Bio: World-renowned chef...</h2>
+    <h2>Dishes prepared by this chef:</h2>
+    <ul>
+        <li th:each="dish : ${chef.dishes}"
+            th:text="|${dish.name} (${dish.cuisine}, ${dish.preparationTime} min)|">
+            Beef Wellington (British, 45 min)
+        </li>
+    </ul>
+    <br/>
+    <a href="/listChefs">Go back to Chef Selection</a>
+</section>
+</body>
+</html>
