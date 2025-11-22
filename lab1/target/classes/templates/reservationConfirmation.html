@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Book Reservation - Welcome and choose a Book</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .book-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .book-option:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Book Reservation App</h1>
+</header>
+<main>
+    <form action="/bookReservation" method="POST">
+        <h2>Choose a book:</h2>
+        <!-- Display radio buttons for each book,
+             the value should be the book title
+             and the displayed text should be:
+             Title: <book_title>, Genre: <book_genre>, Rating: <average_rating> -->
+
+        <h2>Enter your information:</h2>
+        <label>Your Name:</label>
+        <input type="text" name="readerName" required><br/>
+        <label>Your Address:</label>
+        <input type="text" name="readerAddress" required><br/>
+
+        <h2>Choose number of copies:</h2>
+        <input type="number" name="numCopies" min="1" max="10" required><br/>
+        <br/>
+        <input type="submit" value="Reserve Book">
+    </form>
+</main>
+</body>
+</html>
+6.2 BookReservationServlet
+При избор на книга, треба да ја прикажете резервацијата на корисникот. За оваа цел креирајте сервлет BookReservationServlet мапиран на /bookReservation. Овој сервлет треба да зависи од BookReservationService.
+
+Сервлетот треба да:
+
+Ги прочита податоците испратени од формата (избраната книга, број на копии, име и адреса на читателот)
+Да ја земе IP адресата на клиентот
+Креира резервација со повикување на методот placeReservation() од сервисот
+Ја прикаже страната за потврда со деталите за резервацијата
+Во фолдерот src/main/resources/templates додадете фајл reservationConfirmation.html и прилагодете го за изгледот на страната за потврда. Динамички пополнете ги податоците во табелата.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Book Reservation - Confirmation</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 1px solid #333;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+        }
+        td {
+            padding: 10px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <header>
+        <h1>Book Reservation - Confirmation</h1>
+    </header>
+    <table>
+        <tr>
+            <th colspan="2">Your Reservation Status</th>
+        </tr>
+        <tr>
+            <td><b>Reader Name</b></td>
+            <td th:text="${reservation.readerName}"></td>
+        </tr>
+        <tr>
+            <td><b>Client IP Address</b></td>
+            <td th:text="${clientIp}"></td>
+        </tr>
+        <tr>
+            <td><b>Reservation for Book</b></td>
+            <td th:text="${reservation.bookTitle}"></td>
+        </tr>
+        <tr>
+            <td><b>Number of copies</b></td>
+            <td th:text="${reservation.numberOfCopies}"></td>
+        </tr>
+    </table>
+</section>
+</body>
+</html>

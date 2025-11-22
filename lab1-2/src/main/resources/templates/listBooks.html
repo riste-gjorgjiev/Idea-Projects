@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Book Reservation - Welcome and choose a Book</title>
+    <style type="text/css">
+        body { width: 800px; margin: auto; font-family: Arial, sans-serif; }
+        h1 { color: #333; }
+        form { margin-top: 20px; }
+        /* Adjusted style to match previous steps for flex layout */
+        .book-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex; /* Added flex to align details and actions */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .book-option:hover { background-color: #f5f5f5; }
+        .book-details { flex-grow: 1; }
+        .book-actions { margin-left: 20px; display: flex; } /* Added flex to align buttons */
+        .book-actions button { margin-left: 5px; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        .edit-btn { background-color: #4CAF50; color: white; border: none; }
+        .delete-btn { background-color: #f44336; color: white; border: none; }
+        .add-new-btn { background-color: #3f51b5; color: white; padding: 10px 15px; border: none; border-radius: 4px; margin-top: 20px; display: block; }
+        .search-form input[type="submit"] { margin-right: 10px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Book Management App</h1>
+</header>
+<main>
+
+    <div th:if="${hasError}" style="color: red; padding: 10px; border: 1px solid red;">
+        <p th:text="${error}">Error Placeholder</p>
+    </div>
+
+    <form method="GET" th:action="@{/books}" class="search-form">
+        <h2>Search Books:</h2>
+        <label>Title Text:</label>
+        <input type="text" name="text" th:value="${searchText}"><br/>
+        <label>Minimum Rating:</label>
+        <input type="number" name="rating" step="0.1" min="0" max="5" th:value="${searchRating}"><br/>
+        <br/>
+        <input type="submit" value="Search">
+        <a th:href="@{/books}"><button type="button">Clear Search</button></a>
+    </form>
+    <hr/>
+
+    <h2>Available Books:</h2>
+
+    <p th:if="${#lists.isEmpty(books)}">No books found matching the criteria.</p>
+
+    <div th:each="book : ${books}" th:if="${book != null}" class="book-option">
+
+        <div class="book-details">
+            <strong><span th:text="${book.title}">Title</span></strong>
+            (Genre: <span th:text="${book.genre}">Genre Placeholder</span>,
+            Rating: <span th:text="${book.averageRating}">Rating Placeholder</span>)
+            Author:
+            <span th:if="${book.author != null}" th:text="${book.author.name + ' ' + book.author.surname}">Author Name</span>
+            <span th:unless="${book.author != null}">N/A</span>
+        </div>
+
+        <div class="book-actions">
+            <a th:href="@{'/books/book-form/' + ${book.id}}">
+                <button type="button" class="edit-btn">Edit</button>
+            </a>
+
+            <form th:method="POST" th:action="@{'/books/delete/' + ${book.id}}" style="display: inline">
+                <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this book?')">
+                    Delete
+                </button>
+            </form>
+
+            <a th:href="@{/books/reservations/form/{id}(id=${book.id})}">
+                <button type="button" class="edit-btn" style="background-color: #007bff;">Reserve</button>
+            </a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <a th:href="@{/books/book-form}">
+        <button type="button" class="add-new-btn">Add New Book</button>
+    </a>
+</main>
+</body>
+</html>

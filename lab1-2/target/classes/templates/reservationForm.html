@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Reservation</title>
+</head>
+<body>
+<h1>Make Reservation</h1>
+
+<h2>Book: <span th:text="${book.title}">Title Placeholder</span></h2>
+
+<form th:method="POST" th:action="@{/reservations}">
+
+    <input type="hidden" name="bookTitle" th:value="${book.title}">
+    <input type="hidden" name="bookId" th:value="${book.id}">
+
+    <h3>Enter your information:</h3>
+
+    <label for="readerName">Your Name:</label>
+    <input type="text" id="readerName" name="readerName" required><br/><br/>
+
+    <label for="readerAddress">Your Address:</label>
+    <input type="text" id="readerAddress" name="readerAddress" required><br/><br/>
+
+    <h3>Choose number of copies:</h3>
+    <input type="number" name="numberOfCopies" min="1" max="10" required><br/><br/>
+
+    <input type="submit" value="Confirm Reservation">
+    <a th:href="@{/books}"><button type="button">Cancel</button></a>
+</form>
+</body>
+</html>

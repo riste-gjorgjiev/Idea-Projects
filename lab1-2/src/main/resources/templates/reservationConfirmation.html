@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>...</head>
+<body>
+<h2>Reservation Confirmation</h2>
+<p>Thank you for your reservation!</p>
+
+<table>
+    <tr>
+        <th>Book Title:</th>
+        <td th:text="${reservation.book.title}">Title Placeholder</td>
+    </tr>
+    <tr>
+        <th>Client Name:</th>
+        <td th:text="${reservation.clientName}">Name Placeholder</td>
+    </tr>
+    <tr>
+        <th>Number of Copies:</th>
+        <td th:text="${reservation.numCopies}">Copies Placeholder</td>
+    </tr>
+    <tr>
+        <th>Client IP:</th>
+        <td th:text="${reservation.clientIpAddress}">IP Placeholder</td>
+    </tr>
+</table>
+</body>
+</html>
